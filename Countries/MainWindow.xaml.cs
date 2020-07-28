@@ -164,7 +164,6 @@ namespace Countries
                     Update("UPDATE Countries " +
                         "SET Capital ="+ insert.Capital + ", Region=" + insert.Region +  ", Population=" + json.population.ToString() + ", Area=" + json.area.ToString() +
                         "WHERE Code='" + json.alpha2Code + "'");
-                    Save_click.Visibility = Visibility.Visible;
                 }
                 else
                 {
