@@ -40,10 +40,8 @@ namespace Countries
         HttpClient client = new HttpClient();
         HttpRequestMessage request = new HttpRequestMessage();
         string URL = "https://restcountries.eu/rest/v2/name/";
-        // объект из полученного в будущем json
-        Root json;
+        JSON json;
         SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString);
-        // вся таблица со странами
         DataTable dataTable = new DataTable("Countries");
         public MainWindow()
         {
@@ -75,9 +73,7 @@ namespace Countries
                 else
                 {
                     var resp = await response.Content.ReadAsStringAsync();
-                    json = JsonConvert.DeserializeObject<List<Root>>(resp)[0];
-                    //string serialized = JsonConvert.SerializeObject(json);
-                    //Output_REST.Text = serialized;
+                    json = JsonConvert.DeserializeObject<List<JSON>>(resp)[0];
                     Output_REST.Text = "Name: " + json.name + "\n" + "Code: " + json.alpha2Code + "\n" + "Capital: " + json.capital + "\n" + "Region: " + json.region + "\n" + "Population: " + json.population + "\n" + "Area: " + json.area;
                     Save.Visibility = Visibility.Visible;
                 }
@@ -95,7 +91,6 @@ namespace Countries
             Save.Visibility = Visibility.Hidden;
             try
             {
-                // Подключение к БД и поиск столицы в Городах
                 connection.Open();
                 Table insert = new Table();
                 DataTable table_Cities = Select("SELECT * FROM Cities", "Cities");
@@ -110,7 +105,6 @@ namespace Countries
                     }
                 }
 
-                // Если город найден, берется его идентификатор, иначе добавляется в таблицу Города, и возвращается новый идентификатор
                 if (flag)
                 {
                     insert.Capital = table_Cities.Rows[i][0].ToString();
@@ -121,9 +115,6 @@ namespace Countries
                     Save_click.Visibility = Visibility.Visible;
                 }
      
-                
-
-                // Подключение к БД и поиск региона в Регионах
                 DataTable table_Regions = Select("SELECT * FROM Regions", "Regions");
                 flag = false;
                 for (i = 0; i < table_Regions.Rows.Count; i++)
@@ -134,8 +125,7 @@ namespace Countries
                         break;
                     }
                 }
-
-                // Если регион найден, берется его идентификатор, иначе добавляется в таблицу Регионы, и возвращается новый идентификатор
+                
                 if (flag)
                 {
                     insert.Region = table_Regions.Rows[i][0].ToString();
@@ -146,7 +136,6 @@ namespace Countries
                     Save_click.Visibility = Visibility.Visible;
                 }
 
-                // Подключение к БД и поиск страны по коду в Страны
                 dataTable = Select("SELECT * FROM Countries", "Countries");
                 flag = false;
                 for (i = 0; i < dataTable.Rows.Count; i++)
@@ -158,7 +147,6 @@ namespace Countries
                     }
                 }
                 
-                // Если страна найдена, обновляются данные, иначе добавляется в таблицу со всеми идентификторами
                 if (flag)
                 {
                     Update("UPDATE Countries " +
@@ -297,7 +285,7 @@ namespace Countries
 
     }
 
-    public class Root
+    public class JSON
     {
         public string name { get; set; }
         public List<string> topLevelDomain { get; set; }
