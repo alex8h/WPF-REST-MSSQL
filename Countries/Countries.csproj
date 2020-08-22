@@ -105,7 +105,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Model\CountriesModel.cs" />
+    <Compile Include="ViewModel\CountriesViewModel.cs" />
+    <Page Include="View\CountriesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -113,8 +115,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Model\JSON.cs" />
+    <Compile Include="Model\ObservableObject.cs" />
+    <Compile Include="Model\Table.cs" />
+    <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="View\CountriesView.xaml.cs">
+      <DependentUpon>CountriesView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -145,5 +151,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
